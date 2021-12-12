@@ -1,4 +1,4 @@
-(ns noc.01-vector
+(ns noc.ch01-vectors.bouncing-ball
   (:require [clojure.core.matrix :as m]
             [quil.core :as q]
             [quil.middleware :refer [fun-mode]]))
@@ -19,8 +19,7 @@
         [dx dy] speed]
     {:pos pos'
      :speed [(if (or (< x 0) (> x width)) (* -1 dx) dx)
-             (if (or (< y 0) (> y height)) (* -1 dy) dy)]}))
- 
+             (if (or (< y 0) (> y height)) (* -1 dy) dy)]})) 
 
 (defn draw [state]
   (let [{[x y] :pos} state]
