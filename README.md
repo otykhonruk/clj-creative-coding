@@ -1,6 +1,6 @@
-# NoC
+# The Nature of Code
 
-The examples and the exercies from [The Nature of Code book](https://natureofcode.com/book/) implemented in Clojure/[Quil](http://www.quil.info/).
+The examples and the exercies from [The Nature of Code](https://natureofcode.com/book/) book implemented in Clojure/[Quil](http://www.quil.info/).
 
 To execute a sketch in Emacs/Cider:
 
@@ -9,8 +9,9 @@ To execute a sketch in Emacs/Cider:
 1. Modify functions, e.g. draw and reevaluate only this function using `C-c C-e`. After that you should see changes.
 
 
-A few useful resources:
-[Using Quil for artwork](https://tylerxhobbs.com/essays/2015/using-quil-for-artwork) by Tyler Hobbs.
+Useful resources:
+
+* [Using Quil for artwork](https://tylerxhobbs.com/essays/2015/using-quil-for-artwork) by Tyler Hobbs.
 
 
 
