@@ -1,4 +1,4 @@
-(ns noc.ch07-cellular-automata.core)
+(ns noc.ch07-ca.core)
 
 (defn next-cell
   [rule [a b c]]

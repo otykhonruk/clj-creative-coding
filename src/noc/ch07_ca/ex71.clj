@@ -1,7 +1,7 @@
-(ns noc.ch07-cellular-automata.ex71
+(ns noc.ch07-ca.ex71
   (:require [quil.core :as q]
             [quil.middleware :as m]
-            [noc.ch07-cellular-automata.core :as ca]))
+            [noc.ch07-ca.core :as ca]))
 
 (defn setup
   []

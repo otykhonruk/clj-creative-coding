@@ -1,4 +1,5 @@
 (ns noc.ch08-fractals.sketch
+  (:require [clojure.string :refer [join]])
   (:require [quil.core :refer :all]))
 
 
@@ -7,10 +8,8 @@
 
 (defn lsystem
   [axiom rules]
-  (lazy-seq
-   (cons axiom
-         (lsystem (clojure.string/join (map #(rules % %) axiom))
-                  rules))))
+  (iterate (fn [a] (join (map #(rules % %) a)))
+           axiom))
 
 
 (defn turtle

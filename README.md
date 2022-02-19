@@ -1,6 +1,6 @@
 # The Nature of Code
 
-The examples and the exercies from [The Nature of Code](https://natureofcode.com/book/) book implemented in Clojure/[Quil](http://www.quil.info/).
+The examples and the exercises from [The Nature of Code](https://natureofcode.com/book/) book implemented in Clojure/[Quil](http://www.quil.info/).
 
 To execute a sketch in Emacs/Cider:
 
