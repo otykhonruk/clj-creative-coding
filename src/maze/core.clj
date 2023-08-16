@@ -35,30 +35,32 @@
 
 
 (defn random-tree
-  ([nodes] (random-tree nodes nil)) ; list
+  "`nil` corresponds to `deque.pop` (LIFO) in Peter's implementation.
+   To get `deque.popleft` (FIFO) behaviour, pass PersistentQueue/EMPTY"
+  ([nodes]
+   (random-tree nodes nil))
   ([nodes frontier]
-  (let [root (rand-nth nodes)]
-    (loop [tree #{}
-           nodes (disj (set nodes) root)
-           frontier (conj frontier root)]
-      (if (empty? nodes)
-        tree
-        (let [node (peek frontier)
-              frontier (pop frontier)
-              nbrs (intersection (neighbors node) nodes)]
-          (if (empty? nbrs)
-            (recur tree nodes frontier)
-            (let [nbr (rand-nth (seq nbrs))]
-              (recur (conj tree (edge node nbr))
-                     (disj nodes nbr)
-                     (conj frontier node nbr))))))))))
+   (let [root (rand-nth nodes)]
+     (loop [tree #{}
+            nodes (disj (set nodes) root)
+            frontier (conj frontier root)]
+       (if (empty? nodes)
+         tree
+         (let [node (peek frontier)
+               frontier (pop frontier)
+               nbrs (intersection (neighbors node) nodes)]
+           (if (empty? nbrs)
+             (recur tree nodes frontier)
+             (let [nbr (rand-nth (seq nbrs))]
+               (recur (conj tree (edge node nbr))
+                      (disj nodes nbr)
+                      (conj frontier node nbr))))))))))
 
-
-;; (random-tree (grid 8 8))
+;; draw-cell/draw-grid are for testing purposes
 
 (defn draw-cell
+  "Draw N and W walls."
   [x y cellsize]
-  ;; Draw N and W walls.
   (let [ox (* x cellsize) 
         oy (* y cellsize)
         x (+ ox cellsize)
@@ -67,29 +69,29 @@
     (line ox oy ox y)))
 
 
-(defn draw-maze
-  [grid cellsize edges]
-  (doseq [xy grid]
-    (let [[n w] (neighbors-nw xy)
-          [x y] xy]
-      (let [ox (* x cellsize)
-            oy (* y cellsize)]
-        (when-not (edges [n xy])
-          (line ox oy (+ ox cellsize) oy))
-        (when-not (edges [w xy])
-          (line ox oy ox (+ oy cellsize)))))))
-
 (defn draw-grid
   [grid cellsize]
   (doseq [[x y] grid]
     (draw-cell x y cellsize)))
+
+
+(defn draw-maze
+  [grid cellsize edges]
+  (doseq [xy grid]
+    (let [[n w] (neighbors-nw xy)
+          [x y] xy
+          ox (* x cellsize)
+          oy (* y cellsize)]
+      (when-not (edges [n xy])
+        (line ox oy (+ ox cellsize) oy))
+      (when-not (edges [w xy])
+        (line ox oy ox (+ oy cellsize))))))
+
 
 (defn draw []
   (no-loop)
   (background 255)
   (stroke-weight 2)
   (let [grid (grid 70 70)
-        ;; corresponds to `deque.pop` in Peter's implementation.
-        ;; to get `deque.popleft` behaviour, pass PersistentQueue/EMPTY
         edges (random-tree grid)]
     (draw-maze grid 10 edges)))
