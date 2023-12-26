@@ -5,10 +5,22 @@
 
 (def seed (atom (System/nanoTime)))
 
+(def cell-size 10)
+(def n-cells 80)
+(def size (* cell-size n-cells))
 
 (defn setup []
   (random-seed @seed)
+  (color-mode :hsb 360 100 100)
   (no-loop))
+
+
+(defn draw []
+  (background 45 10 100)
+  (stroke-weight 2)
+  (let [grid (m/grid n-cells n-cells)
+        edges (m/random-tree grid)]
+    (m/draw-maze grid cell-size edges)))
 
 
 (defn process-key []
@@ -31,8 +43,8 @@
 (defsketch maze
   :title "Maze generation and visualization"
   :settings #(pixel-density (display-density))
-  :size [700 700]
+  :size [800 800]
   :setup setup
-  :draw m/draw
+  :draw draw
   :features [:keep-on-top]
   :key-released process-key)

@@ -1,7 +1,7 @@
 (ns maze.core
   (:import [clojure.lang PersistentQueue])
   (:require [clojure.set :refer [intersection]]
-            [quil.core :refer :all]))
+            [quil.core :refer [line]]))
         
 
 ;; Literal translation from Python to Clojure from Peter Norvig's
@@ -12,6 +12,7 @@
 (defn edge
   [a b]
   (sort [a b]))
+
 
 (defn grid
   [w h]
@@ -86,12 +87,3 @@
         (line ox oy (+ ox cellsize) oy))
       (when-not (edges [w xy])
         (line ox oy ox (+ oy cellsize))))))
-
-
-(defn draw []
-  (no-loop)
-  (background 255)
-  (stroke-weight 2)
-  (let [grid (grid 70 70)
-        edges (random-tree grid)]
-    (draw-maze grid 10 edges)))
