@@ -1,8 +1,5 @@
 (ns maze.core
-  (:import [clojure.lang PersistentQueue])
-  (:require [clojure.set :refer [intersection]]
-            [quil.core :refer [line]]))
-        
+  (:require [clojure.set :refer [intersection]]))
 
 ;; Literal translation from Python to Clojure from Peter Norvig's
 ;; "Making and Solving Mazes". Only the "making" currently implemented.
@@ -56,34 +53,3 @@
                (recur (conj tree (edge node nbr))
                       (disj nodes nbr)
                       (conj frontier node nbr))))))))))
-
-;; draw-cell/draw-grid are for testing purposes
-
-(defn draw-cell
-  "Draw N and W walls."
-  [x y cellsize]
-  (let [ox (* x cellsize) 
-        oy (* y cellsize)
-        x (+ ox cellsize)
-        y (+ oy cellsize)]
-    (line ox oy x oy)
-    (line ox oy ox y)))
-
-
-(defn draw-grid
-  [grid cellsize]
-  (doseq [[x y] grid]
-    (draw-cell x y cellsize)))
-
-
-(defn draw-maze
-  [grid cellsize edges]
-  (doseq [xy grid]
-    (let [[n w] (neighbors-nw xy)
-          [x y] xy
-          ox (* x cellsize)
-          oy (* y cellsize)]
-      (when-not (edges [n xy])
-        (line ox oy (+ ox cellsize) oy))
-      (when-not (edges [w xy])
-        (line ox oy ox (+ oy cellsize))))))
