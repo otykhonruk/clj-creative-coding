@@ -1,6 +1,4 @@
-# The Nature of Code
-
-The examples and the exercises from the second edition of [The Nature of Code](https://nature-of-code-2nd-edition.netlify.app) book implemented in Clojure/[Quil](http://www.quil.info/).
+A collection of [Processing](https://processing.org) sketches implemented in [Clojure](https://clojure.org)/[Quil](http://www.quil.info).
 
 ## Run
 
