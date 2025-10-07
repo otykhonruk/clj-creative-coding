@@ -3,6 +3,8 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.11.1"]
-                 [net.mikera/core.matrix "0.63.0"]
-                 [quil "4.3.1323"]])
+  :dependencies [[org.clojure/clojure "1.12.1"]
+                 [quil "4.3.1563"]
+                 [generateme/fastmath "2.4.0"
+                  :exclusions [com.github.haifengl/smile-mkl
+                               org.bytedeco/openblas]]])

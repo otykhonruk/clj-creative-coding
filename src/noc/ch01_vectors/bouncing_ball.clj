@@ -1,5 +1,5 @@
 (ns noc.ch01-vectors.bouncing-ball
-  (:require [clojure.core.matrix :as m]
+  (:require [fastmath.vector :as v]
             [quil.core :as q]
             [quil.middleware :refer [fun-mode]]))
 
@@ -14,7 +14,7 @@
 
 (defn upd [state]
   (let [{pos :pos speed :speed} state
-        pos' (m/add pos speed)
+        pos' (v/add pos speed)
         [x y] pos'
         [dx dy] speed]
     {:pos pos'
