@@ -1,4 +1,4 @@
-(ns noc.ch04-particle-systems.core
+(ns natureofcode.ch04-particle-systems.core
   (:require [quil.core :refer :all]
             [quil.middleware :as m]
             [fastmath.vector :as v]))

@@ -1,7 +1,7 @@
-(ns noc.ch04-particle-systems.sketch
+(ns natureofcode.ch04-particle-systems.sketch
   (:require [quil.core :refer :all]
             [quil.middleware :refer [fun-mode]]
-            [noc.ch04-particle-systems.core :refer :all]))
+            [natureofcode.ch04-particle-systems.core :refer :all]))
 
 
 (defn setup []

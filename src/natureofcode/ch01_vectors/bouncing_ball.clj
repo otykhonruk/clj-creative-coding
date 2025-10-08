@@ -1,4 +1,4 @@
-(ns noc.ch01-vectors.bouncing-ball
+(ns natureofcode.ch01-vectors.bouncing-ball
   (:require [fastmath.vector :as v]
             [quil.core :as q]
             [quil.middleware :refer [fun-mode]]))

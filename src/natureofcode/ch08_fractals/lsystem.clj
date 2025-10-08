@@ -1,4 +1,4 @@
-(ns noc.ch08-fractals.sketch
+(ns natureofcode.ch08-fractals.sketch
   (:require [clojure.string :refer [join]])
   (:require [quil.core :refer :all])
   (:require [quil.middleware :refer [fun-mode]]))
