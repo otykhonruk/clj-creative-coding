@@ -5,12 +5,9 @@ A collection of [Processing](https://processing.org) sketches implemented in [Cl
 To execute a sketch in Emacs/Cider:
 
 1. Open the file with the sketch.
-1. Evaluate the whole file using `C-c C-k`. It will launch the sketch.
-1. Modify functions, e.g. draw and reevaluate only this function using `C-c C-e`. After that you should see changes.
-
-## Useful resources
-
-* [Using Quil for artwork](https://tylerxhobbs.com/essays/2015/using-quil-for-artwork) by Tyler Hobbs.
+2. Run cider: `M-x cider-jack-in`.
+3. Evaluate the buffer with the sketch using `C-c C-k`.
+4. (Optionally) modify functions, for example `draw` and reevaluate only that function using `C-c C-e`. You should see the changes after that.
 
 ## License
 

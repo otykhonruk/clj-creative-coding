@@ -6,11 +6,13 @@
 
 (def seed (atom (System/nanoTime)))
 
-(def cell-size 14)
 (def n-cells 50)
+(def cell-size 14)
+
+(def half-cell-size (/ cell-size 2))
 (def size (* cell-size n-cells))
 
-(def fifo (atom nil))
+(def frontier (atom nil))
 
 
 (defn setup []
@@ -22,40 +24,54 @@
 
 (defn draw-cell
   "Draw N and W walls."
-  [x y cellsize]
-  (let [ox (* x cellsize) 
-        oy (* y cellsize)
-        x (+ ox cellsize)
-        y (+ oy cellsize)]
+  [x y]
+  (let [ox (* x cell-size) 
+        oy (* y cell-size)
+        x (+ ox cell-size)
+        y (+ oy cell-size)]
     (line ox oy x oy)
     (line ox oy ox y)))
 
 
 (defn draw-grid
-  [grid cellsize]
+  [grid]
   (doseq [[x y] grid]
-    (draw-cell x y cellsize)))
+    (draw-cell x y cell-size)))
 
 
 (defn draw-maze
-  [grid cellsize edges]
+  [grid edges solution]
+
+  ;; maze
+  (stroke 5 5 5)
   (doseq [xy grid]
     (let [[n w] (m/neighbors-nw xy)
           [x y] xy
-          ox (* x cellsize)
-          oy (* y cellsize)]
+          ox (* x cell-size)
+          oy (* y cell-size)]
       (when-not (edges [n xy])
-        (line ox oy (+ ox cellsize) oy))
+        (line ox oy (+ ox cell-size) oy))
       (when-not (edges [w xy])
-        (line ox oy ox (+ oy cellsize))))))
+        (line ox oy ox (+ oy cell-size)))))
+
+  ;; solution
+  (stroke 250 20 5)
+  (no-fill)
+  (begin-shape)
+  (doseq [[x y] solution]
+    (vertex
+     (+ (* x cell-size) half-cell-size)
+     (+ (* y cell-size) half-cell-size)))
+  (end-shape))
 
 
 (defn draw []
   (background 250 245 235)
   (stroke-weight 2)
   (let [grid (m/grid n-cells n-cells)
-        edges (m/random-tree grid @fifo)]
-    (draw-maze grid cell-size edges)))
+        edges (m/random-tree grid @frontier)
+        solution (m/breadth-first-search n-cells n-cells edges)]
+    (draw-maze grid edges solution)))
 
 
 (defn process-key []
@@ -72,7 +88,7 @@
          (use :reload 'maze.core)
          (redraw))
     :f (do  ;; toggle LIFO/FIFO order
-         (swap! fifo #(if %1 nil PersistentQueue/EMPTY))
+         (swap! frontier #(if %1 nil PersistentQueue/EMPTY))
          (redraw))
     :q (exit)
     nil))

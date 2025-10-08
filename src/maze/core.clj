@@ -1,4 +1,5 @@
 (ns maze.core
+  (:import [clojure.lang PersistentQueue])
   (:require [clojure.set :refer [intersection]]))
 
 
@@ -29,8 +30,8 @@
 
 
 (defn random-tree
-  "`nil` corresponds to `deque.pop` (LIFO) in Peter's implementation.
-   To get `deque.popleft` (FIFO) behaviour, pass PersistentQueue/EMPTY"
+  "`nil` frontier corresponds to `deque.pop` (LIFO) behaviour in Peter's implementation.
+   To get `deque.popleft` (FIFO) behaviour, pass `PersistentQueue/EMPTY`"
   ([nodes]
    (random-tree nodes nil))
   ([nodes frontier]
@@ -49,3 +50,22 @@
                (recur (conj tree (edge node nbr))
                       (disj nodes nbr)
                       (conj frontier node nbr))))))))))
+
+
+(defn breadth-first-search [width height edges]
+  (let [start [0 0]
+        goal [(dec width) (dec height)]]
+    (loop [frontier (conj PersistentQueue/EMPTY start)
+           paths {start [start]}]
+      (when-let [s (peek frontier)]
+        (if (= s goal)
+          (paths s)
+          (let [nodes
+                (for [s2 (neighbors s)
+                      :when (and (not (contains? paths s2))
+                                 (contains? edges (edge s s2)))]
+                  s2)
+                frontier' (into (pop frontier) nodes)
+                paths' (into paths
+                             (for [s2 nodes] [s2 (conj (paths s []) s2)]))]
+            (recur frontier' paths')))))))
