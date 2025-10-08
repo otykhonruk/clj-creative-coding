@@ -1,26 +1,7 @@
 (ns ch08_fractals.koch
   (:require [quil.core :refer :all]
-            [quil.middleware :refer [fun-mode]]))
-
-(defn vadd
-  [[x1 y1] [x2 y2]]
-  [(+ x1 x2)(+ y1 y2)])
-
-(defn vsub
-  [[x1 y1] [x2 y2]]
-  [(- x1 x2)(- y1 y2)])
-
-(defn vmul
-  [[x y] n]
-  [(* n x) (* n y)])
-
-(defn vrotate
-  [[x y] theta]
-  (let [st (sin theta)
-        ct (cos theta)]
-    [(- (* x ct) (* y st))
-     (+ (* x st) (* y ct))]))
-
+            [quil.middleware :refer [fun-mode]]
+            [fastmath.vector :as v]))
 
 (defn polygon
   [n r]
@@ -29,15 +10,16 @@
       (let [a (* i a)
             x (* r (sin a))
             y (* r (cos a))]
-        [x y]))))
+        (v/vec2 x y)))))
 
 
 (defn new-koch
+  "Split edge into four equal segments"
   [a e]
-  (let [v (vmul (vsub e a) 1/3)
-        b (vadd a v)
-        c (vadd b (vrotate v THIRD-PI))
-        d (vadd b v)]
+  (let [v (v/mult (v/sub e a) 1/3)
+        b (v/add a v)
+        c (v/add b (v/rotate v THIRD-PI))
+        d (v/add b v)]
     [a b c d e]))
 
 
@@ -49,12 +31,8 @@
 
 (defn update
   [poly]
-  (if (< (count poly) 2000)
-    (let [segments (partition 2 1 poly poly)]
-      (mapcat #(apply new-koch %1) segments))
-    (do
-      (no-loop)
-      poly)))
+  (mapcat #(apply new-koch %1)
+          (partition 2 1 poly poly)))
 
 
 (defn draw
@@ -66,12 +44,14 @@
   (begin-shape)
   (doseq [[x y] poly]
     (vertex x y))
-  (end-shape :close))
+  (end-shape :close)
+  (when (> (count poly) 2000)
+    (no-loop)))
 
 
 (defsketch koch
   :title "Koch curve"
-  :size [800 800]
+  :size [720 720]
   :settings #(pixel-density (display-density))
   :setup setup
   :draw draw
